@@ -9,6 +9,9 @@ import com.cdcb.pruebatecnica1_softlond.repositories.IRepository;
 public class AccountService implements IService<Account> {
 	private IRepository<Account> accountRepository;
 
+	public AccountService(IRepository<Account> accountRepository) {
+		this.accountRepository = accountRepository;
+	}
 
 	@Override
 	public void createDDL() {

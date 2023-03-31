@@ -19,8 +19,8 @@ public class Account {
 
 	public Account() {}
 
-	public Account(String numbarAccount, double balance, String typeAccount, int userId) {
-		this.numberAccount = numbarAccount;
+	public Account(String numberAccount, double balance, String typeAccount, int userId) {
+		this.numberAccount = numberAccount;
 		this.balance = balance;
 		this.typeAccount = typeAccount;
 		this.userId = userId;
@@ -30,8 +30,8 @@ public class Account {
 		return numberAccount;
 	}
 
-	public void setNumberAccount(String numbarAccount) {
-		this.numberAccount = numbarAccount;
+	public void setNumberAccount(String numberAccount) {
+		this.numberAccount = numberAccount;
 	}
 
 	public double getBalance() {
