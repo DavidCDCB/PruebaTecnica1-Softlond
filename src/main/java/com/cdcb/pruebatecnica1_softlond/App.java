@@ -2,6 +2,8 @@ package com.cdcb.pruebatecnica1_softlond;
 
 import java.util.List;
 
+import com.cdcb.pruebatecnica1_softlond.controllers.AccountController;
+import com.cdcb.pruebatecnica1_softlond.controllers.UserController;
 import com.cdcb.pruebatecnica1_softlond.domain.Account;
 import com.cdcb.pruebatecnica1_softlond.domain.Transaction;
 import com.cdcb.pruebatecnica1_softlond.domain.User;
@@ -14,6 +16,10 @@ import com.cdcb.pruebatecnica1_softlond.services.IService;
 import com.cdcb.pruebatecnica1_softlond.services.TransactionService;
 import com.cdcb.pruebatecnica1_softlond.services.UserService;
 
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.handler.DefaultHandler;
+import org.eclipse.jetty.servlet.ServletContextHandler;
+
 public class App 
 {
     public static void main( String[] args )
@@ -24,19 +30,40 @@ public class App
         userService.removeDDL();
         userService.createDDL();
 
+        User user = new User("David", "Cruz", "1");
+        userService.save(user);
+        List<User> users = userService.getAll();
+        System.out.println(users.toString());
+
         IRepository<Account> accountRepository = new AccountRepository("banco.db");
         IService<Account> accountService = new AccountService(accountRepository);
         accountService.removeDDL();
         accountService.createDDL();
-        
+
+        Account account = new Account("David", 100, "Cruz", 1);
+        accountService.save(account);
+
         IRepository<Transaction> transactionRepository = new TransactionRepository("banco.db");
         IService<Transaction> transactionService = new TransactionService(transactionRepository);
         transactionService.removeDDL();
         transactionService.createDDL();
         
-        User user = new User("David", "Cruz", "1");
-        userService.save(user);
-        List<User> users = userService.getAll();
-        System.out.println(users.toString());
+
+        Server server = new Server(9090);
+        server.setHandler(new DefaultHandler());
+
+        ServletContextHandler context = new ServletContextHandler();
+        context.setContextPath("/");
+        context.addServlet(AccountController.class, "/api/account/*");
+        context.addServlet(UserController.class, "/api/user/*");
+        context.addServlet(UserController.class, "/api/transaction/*");
+        server.setHandler(context);
+
+        try{
+            server.start();
+            server.join();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 }

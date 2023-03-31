@@ -77,8 +77,8 @@ public class AccountRepository implements IRepository<Account> {
 			PreparedStatement pstmt = connection.prepareStatement(sql);
 			pstmt.setString(1, entity.getNumberAccount());
 			pstmt.setDouble(2, entity.getBalance());
-			pstmt.setString(2, entity.getTypeAccount());
-			pstmt.setInt(3, entity.getUserId());
+			pstmt.setString(3, entity.getTypeAccount());
+			pstmt.setInt(4, entity.getUserId());
 
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
