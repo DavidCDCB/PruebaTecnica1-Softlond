@@ -5,6 +5,7 @@ import java.util.List;
 import com.cdcb.pruebatecnica1_softlond.domain.Transaction;
 import com.cdcb.pruebatecnica1_softlond.exceptions.TransactionNotFound;
 import com.cdcb.pruebatecnica1_softlond.repositories.IRepository;
+import com.cdcb.pruebatecnica1_softlond.repositories.TransactionRepository;
 
 public class TransactionService implements IService<Transaction> {
 	private IRepository<Transaction> transactionRepository;
@@ -32,6 +33,10 @@ public class TransactionService implements IService<Transaction> {
 	@Override
 	public List<Transaction> getAll() {
 		return this.transactionRepository.selectAll();
+	}
+
+	public List<Transaction> getByAccount(int id) {
+		return ((TransactionRepository) this.transactionRepository).selectByAccount(id);
 	}
 
 	@Override

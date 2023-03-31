@@ -132,7 +132,7 @@ public class UserRepository implements IRepository<User> {
 		try {
 			connection = DriverManager.getConnection(this.fileDB);
 			PreparedStatement pstmt = connection.prepareStatement(sql);
-			pstmt.setInt(1, id);
+			pstmt.setString(1, id + "");
 
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {

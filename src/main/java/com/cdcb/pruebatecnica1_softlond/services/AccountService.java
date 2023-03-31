@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.cdcb.pruebatecnica1_softlond.domain.Account;
 import com.cdcb.pruebatecnica1_softlond.exceptions.AccountNotFound;
+import com.cdcb.pruebatecnica1_softlond.repositories.AccountRepository;
 import com.cdcb.pruebatecnica1_softlond.repositories.IRepository;
 
 public class AccountService implements IService<Account> {
@@ -32,6 +33,12 @@ public class AccountService implements IService<Account> {
 	public List<Account> getAll() {
 		return this.accountRepository.selectAll();
 	}
+
+
+	public List<Account> getByUser(int id) {
+		return ((AccountRepository) this.accountRepository).selectByUser(id);
+	}
+
 
 	@Override
 	public Account getOne(int id) {

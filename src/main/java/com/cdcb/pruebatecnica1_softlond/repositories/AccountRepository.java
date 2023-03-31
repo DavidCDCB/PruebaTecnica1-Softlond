@@ -123,7 +123,7 @@ public class AccountRepository implements IRepository<Account> {
 		try {
 			connection = DriverManager.getConnection(this.fileDB);
 			PreparedStatement pstmt = connection.prepareStatement(sql);
-			pstmt.setDouble(1, id);
+			pstmt.setString(1, id + "");
 
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
@@ -144,6 +144,33 @@ public class AccountRepository implements IRepository<Account> {
 		}else{
 			return cuenta;
 		}
+	}
+	
+	public List<Account> selectByUser(int id) {
+		Connection connection = null;
+		List<Account> cuentas = new ArrayList<>();
+		String sql = "SELECT * FROM CUENTAS WHERE ID_USUARIO = ?";
+		try {
+			connection = DriverManager.getConnection(this.fileDB);
+			PreparedStatement pstmt = connection.prepareStatement(sql);
+			pstmt.setInt(1, id);
+			ResultSet rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				Account cuenta = new Account(
+					rs.getString("NUMERO_CUENTA"),
+					rs.getDouble("SALDO"),
+					rs.getString("TIPO_CUENTA"),
+					rs.getInt("ID_USUARIO")
+				);
+				cuentas.add(cuenta);
+			}
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}finally{
+			this.disconnect(connection);
+		}
+		return cuentas;
 	}
 
 	@Override

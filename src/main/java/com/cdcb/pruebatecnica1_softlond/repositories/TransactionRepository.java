@@ -161,6 +161,35 @@ public class TransactionRepository implements IRepository<Transaction> {
 		}
 	}
 
+	public List<Transaction> selectByAccount(int id) {
+		Connection connection = null;
+		List<Transaction> cuentas = new ArrayList<>();
+		String sql = "SELECT * FROM TRANSACCIONES WHERE ID_CUENTA = ?";
+		try {
+			connection = DriverManager.getConnection(this.fileDB);
+			PreparedStatement pstmt = connection.prepareStatement(sql);
+			pstmt.setInt(1, id);
+			ResultSet rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				Transaction transaction = new Transaction(
+					rs.getString("FECHA"),
+					rs.getString("HORA"),
+					rs.getString("TIPO_TRANSACCION"),
+					rs.getDouble("MONTO"),
+					rs.getString("TIPO_CUENTA_DESTINO"),
+					rs.getInt("ID_CUENTA")
+				);
+				cuentas.add(transaction);
+			}
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}finally{
+			this.disconnect(connection);
+		}
+		return cuentas;
+	}
+
 	@Override
 	public void update(Transaction entity, int id) throws TransactionNotFound {
 		int response = 0;
