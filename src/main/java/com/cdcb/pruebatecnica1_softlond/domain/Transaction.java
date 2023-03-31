@@ -6,7 +6,7 @@ public class Transaction {
 	protected String transactionType;
 	protected double balance;
 	protected String destinationAccountType;
-	protected String accountID;
+	protected int accountID;
 
 	public static final String DDL = String.join("\n",
 		"CREATE TABLE IF NOT EXISTS TRANSACCIONES(",
@@ -18,13 +18,14 @@ public class Transaction {
 		"ID_CUENTA INTEGER NOT NULL,",
 		"TIPO_CUENTA_DESTINO TEXT,",
 		"FOREIGN KEY(ID_CUENTA) REFERENCES CUENTAS(ID)",
+		"ON UPDATE CASCADE ON DELETE CASCADE",
 		");"
 	);
 
 	public Transaction() {}
 
 	public Transaction(String date, String hour, String transactionType, double balance, String destinationAccountType,
-			String accountID) {
+			int accountID) {
 		this.date = date;
 		this.hour = hour;
 		this.transactionType = transactionType;
@@ -73,11 +74,11 @@ public class Transaction {
 		this.destinationAccountType = destinationAccountType;
 	}
 
-	public String getAccountID() {
+	public int getAccountID() {
 		return accountID;
 	}
 
-	public void setAccountID(String accountID) {
+	public void setAccountID(int accountID) {
 		this.accountID = accountID;
 	}
 
