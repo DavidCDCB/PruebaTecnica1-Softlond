@@ -9,7 +9,7 @@ public class Transaction {
 	protected String accountID;
 
 	public static final String DDL = String.join("\n",
-		"CREATE TABLE TRANSACCIONES(",
+		"CREATE TABLE IF NOT EXISTS TRANSACCIONES(",
 		"ID INTEGER PRIMARY KEY AUTOINCREMENT,",
 		"FECHA TEXT NOT NULL,",
 		"HORA TEXT NOT NULL,",

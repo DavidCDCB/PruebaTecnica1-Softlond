@@ -6,7 +6,7 @@ public class User {
 	protected String identification;
 
 	public static final String DDL = String.join("\n",
-		"CREATE TABLE USUARIOS(",
+		"CREATE TABLE IF NOT EXISTS USUARIOS(",
 		"ID INTEGER PRIMARY KEY AUTOINCREMENT,",
 		"NOMBRE TEXT NOT NULL,",
 		"APELLIDO TEXT NOT NULL,",

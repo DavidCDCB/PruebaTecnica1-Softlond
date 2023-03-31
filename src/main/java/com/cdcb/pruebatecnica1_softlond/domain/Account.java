@@ -7,7 +7,7 @@ public class Account {
 	protected int userId;
 
 	public static final String DDL = String.join("\n",
-		"CREATE TABLE CUENTAS(",
+		"CREATE TABLE IF NOT EXISTS CUENTAS(",
 		"ID INTEGER PRIMARY KEY AUTOINCREMENT,",
 		"NUMERO_CUENTA TEXT NOT NULL UNIQUE,",
 		"SALDO REAL NOT NULL,",
