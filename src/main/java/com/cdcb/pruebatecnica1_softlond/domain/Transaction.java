@@ -1,12 +1,12 @@
 package com.cdcb.pruebatecnica1_softlond.domain;
 
 public class Transaction {
-	private String date;
-	private String hour;
-	private String transactionType;
-	private double balance;
-	private String destinationAccountType;
-	private String accountID;
+	protected String date;
+	protected String hour;
+	protected String transactionType;
+	protected double balance;
+	protected String destinationAccountType;
+	protected String accountID;
 
 	public static final String DDL = String.join("\n",
 		"CREATE TABLE TRANSACCIONES(",

@@ -1,9 +1,9 @@
 package com.cdcb.pruebatecnica1_softlond.domain;
 
 public class User {
-	private String name;
-	private String lastName;
-	private String identification;
+	protected String name;
+	protected String lastName;
+	protected String identification;
 
 	public static final String DDL = String.join("\n",
 		"CREATE TABLE USUARIOS(",

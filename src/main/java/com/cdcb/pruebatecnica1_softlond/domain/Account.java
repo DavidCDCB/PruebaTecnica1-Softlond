@@ -1,10 +1,10 @@
 package com.cdcb.pruebatecnica1_softlond.domain;
 
 public class Account {
-	private String numbarAccount;
-	private double balance;
-	private String typeAccount;
-	private int userId;
+	protected String numberAccount;
+	protected double balance;
+	protected String typeAccount;
+	protected int userId;
 
 	public static final String DDL = String.join("\n",
 		"CREATE TABLE CUENTAS(",
@@ -20,18 +20,18 @@ public class Account {
 	public Account() {}
 
 	public Account(String numbarAccount, double balance, String typeAccount, int userId) {
-		this.numbarAccount = numbarAccount;
+		this.numberAccount = numbarAccount;
 		this.balance = balance;
 		this.typeAccount = typeAccount;
 		this.userId = userId;
 	}
 
-	public String getNumbarAccount() {
-		return numbarAccount;
+	public String getNumberAccount() {
+		return numberAccount;
 	}
 
-	public void setNumbarAccount(String numbarAccount) {
-		this.numbarAccount = numbarAccount;
+	public void setNumberAccount(String numbarAccount) {
+		this.numberAccount = numbarAccount;
 	}
 
 	public double getBalance() {
@@ -64,7 +64,7 @@ public class Account {
 
 	@Override
 	public String toString() {
-		return "Account [numbarAccount=" + numbarAccount + ", balance=" + balance + ", typeAccount=" + typeAccount
+		return "Account [numbarAccount=" + numberAccount + ", balance=" + balance + ", typeAccount=" + typeAccount
 				+ ", userId=" + userId + "]";
 	}
 
