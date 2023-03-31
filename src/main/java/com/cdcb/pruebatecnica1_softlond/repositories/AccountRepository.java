@@ -119,11 +119,11 @@ public class AccountRepository implements IRepository<Account> {
 	public Account selectById(int id) throws AccountNotFound {
 		Account cuenta = null;
 		Connection connection = null;
-		String sql = "SELECT * FROM CUENTAS WHERE NUMERO_CUENTA = ?";
+		String sql = "SELECT * FROM CUENTAS WHERE ID = ?";
 		try {
 			connection = DriverManager.getConnection(this.fileDB);
 			PreparedStatement pstmt = connection.prepareStatement(sql);
-			pstmt.setString(1, id + "");
+			pstmt.setInt(1, id);
 
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {

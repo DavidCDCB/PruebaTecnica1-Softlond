@@ -25,6 +25,8 @@ public class AccountController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		System.out.println("Account");
+		System.out.println(req.getParameter("p1"));
+		System.out.println(req.getParameter("p2"));
 		resp.setContentType("application/json");
 		resp.setStatus(HttpServletResponse.SC_OK);
 	}

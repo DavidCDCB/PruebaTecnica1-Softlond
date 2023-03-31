@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.cdcb.pruebatecnica1_softlond.domain.User;
-import com.cdcb.pruebatecnica1_softlond.exceptions.AccountNotFound;
 import com.cdcb.pruebatecnica1_softlond.exceptions.UserNotFound;
 
 public class UserRepository implements IRepository<User> {
@@ -148,7 +147,7 @@ public class UserRepository implements IRepository<User> {
 			this.disconnect(connection);
 		}
 		if(user == null) {
-			throw new AccountNotFound("El usuario no existe");
+			throw new UserNotFound("El usuario no existe");
 		}else{
 			return user;
 		}
@@ -173,7 +172,7 @@ public class UserRepository implements IRepository<User> {
 			this.disconnect(connection);
 		}
 		if(response == 0){
-			throw new AccountNotFound("Usuario no encontrado");
+			throw new UserNotFound("Usuario no encontrado");
 		}
 	}
 
@@ -193,7 +192,7 @@ public class UserRepository implements IRepository<User> {
 			this.disconnect(connection);
 		}
 		if(response == 0){
-			throw new AccountNotFound("Usuario no encontrada");
+			throw new UserNotFound("Usuario no encontrada");
 		}
 	}
 }

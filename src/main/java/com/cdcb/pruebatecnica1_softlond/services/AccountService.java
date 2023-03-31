@@ -34,11 +34,9 @@ public class AccountService implements IService<Account> {
 		return this.accountRepository.selectAll();
 	}
 
-
 	public List<Account> getByUser(int id) {
 		return ((AccountRepository) this.accountRepository).selectByUser(id);
 	}
-
 
 	@Override
 	public Account getOne(int id) {

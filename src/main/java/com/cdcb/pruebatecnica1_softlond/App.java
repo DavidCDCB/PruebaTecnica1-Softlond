@@ -42,18 +42,18 @@ public class App
 
         Account account = new Account("123", 100, "Cruz", 1);
         accountService.save(account);
-        System.out.println(accountService.getOne(123));
+        System.out.println(accountService.getOne(1));
 
         List<Account> accounts = ((AccountService)accountService).getByUser(1);
         System.out.println(accounts.toString());
 
         IRepository<Transaction> transactionRepository = new TransactionRepository("banco.db");
-        IService<Transaction> transactionService = new TransactionService(transactionRepository);
+        IService<Transaction> transactionService = new TransactionService(transactionRepository, accountRepository);
         transactionService.removeDDL();
         transactionService.createDDL();
         
 
-/*         Server server = new Server(9090);
+        Server server = new Server(9090);
         server.setHandler(new DefaultHandler());
 
         ServletContextHandler context = new ServletContextHandler();
@@ -68,6 +68,6 @@ public class App
             server.join();
         }catch(Exception e){
             e.printStackTrace();
-        } */
+        }
     }
 }

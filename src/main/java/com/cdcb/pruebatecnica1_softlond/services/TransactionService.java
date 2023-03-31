@@ -2,6 +2,7 @@ package com.cdcb.pruebatecnica1_softlond.services;
 
 import java.util.List;
 
+import com.cdcb.pruebatecnica1_softlond.domain.Account;
 import com.cdcb.pruebatecnica1_softlond.domain.Transaction;
 import com.cdcb.pruebatecnica1_softlond.exceptions.TransactionNotFound;
 import com.cdcb.pruebatecnica1_softlond.repositories.IRepository;
@@ -10,7 +11,7 @@ import com.cdcb.pruebatecnica1_softlond.repositories.TransactionRepository;
 public class TransactionService implements IService<Transaction> {
 	private IRepository<Transaction> transactionRepository;
 
-	public TransactionService(IRepository<Transaction> userRepository) {
+	public TransactionService(IRepository<Transaction> userRepository, IRepository<Account> accountRepository) {
 		this.transactionRepository = userRepository;
 	}
 
