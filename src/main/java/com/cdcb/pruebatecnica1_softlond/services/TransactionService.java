@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.cdcb.pruebatecnica1_softlond.domain.Account;
 import com.cdcb.pruebatecnica1_softlond.domain.Transaction;
+import com.cdcb.pruebatecnica1_softlond.exceptions.RecordNotStored;
 import com.cdcb.pruebatecnica1_softlond.exceptions.TransactionNotFound;
 import com.cdcb.pruebatecnica1_softlond.repositories.IRepository;
 import com.cdcb.pruebatecnica1_softlond.repositories.TransactionRepository;
@@ -26,9 +27,14 @@ public class TransactionService implements IService<Transaction> {
 	}
 
 	@Override
-	public void save(Transaction entity) {
-		this.transactionRepository.insert(entity);
-		
+	public boolean save(Transaction entity) {
+		try {
+			this.transactionRepository.insert(entity);
+			return true;
+		} catch (RecordNotStored e) {
+			System.out.println(e.getMessage());
+		}
+		return false;
 	}
 
 	@Override

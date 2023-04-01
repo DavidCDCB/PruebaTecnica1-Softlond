@@ -54,6 +54,7 @@ public class TransactionController extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		boolean almacenado = false;
 		String content = req.getContentType();
 		if(content != "application/json" || content == null){
 			resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -62,8 +63,12 @@ public class TransactionController extends HttpServlet {
 		switch (req.getPathInfo()) {
 			case "/save":
 				Transaction transaction = this.mapTransaction(req.getInputStream());
-				transactionService.save(transaction);
-				resp.setStatus(HttpServletResponse.SC_CREATED);
+				almacenado = transactionService.save(transaction);
+				if(almacenado){
+					resp.setStatus(HttpServletResponse.SC_CREATED);
+				} else {
+					resp.setStatus(HttpServletResponse.SC_NOT_MODIFIED);
+				}
 				break;
 			default:
 				resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);

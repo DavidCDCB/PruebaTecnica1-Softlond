@@ -54,6 +54,7 @@ public class AccountController extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		boolean almacenado = false;
 		String content = req.getContentType();
 		if(content != "application/json" || content == null){
 			resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -62,8 +63,12 @@ public class AccountController extends HttpServlet {
 		switch (req.getPathInfo()) {
 			case "/save":
 				Account account = this.mapAccount(req.getInputStream());
-				accountService.save(account);
-				resp.setStatus(HttpServletResponse.SC_CREATED);
+				almacenado = accountService.save(account);
+				if(almacenado){
+					resp.setStatus(HttpServletResponse.SC_CREATED);
+				} else {
+					resp.setStatus(HttpServletResponse.SC_NOT_MODIFIED);
+				}
 				break;
 			default:
 				resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);

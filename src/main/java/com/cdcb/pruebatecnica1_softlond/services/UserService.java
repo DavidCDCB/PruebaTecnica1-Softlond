@@ -3,6 +3,7 @@ package com.cdcb.pruebatecnica1_softlond.services;
 import java.util.List;
 
 import com.cdcb.pruebatecnica1_softlond.domain.User;
+import com.cdcb.pruebatecnica1_softlond.exceptions.RecordNotStored;
 import com.cdcb.pruebatecnica1_softlond.exceptions.UserNotFound;
 import com.cdcb.pruebatecnica1_softlond.repositories.IRepository;
 
@@ -24,8 +25,14 @@ public class UserService implements IService<User> {
 	}
 
 	@Override
-	public void save(User entity) {
-		this.userRepository.insert(entity);
+	public boolean save(User entity) {
+		try {
+			this.userRepository.insert(entity);
+			return true;
+		} catch (RecordNotStored e) {
+			System.out.println(e.getMessage());
+		}
+		return false;
 	}
 
 	@Override

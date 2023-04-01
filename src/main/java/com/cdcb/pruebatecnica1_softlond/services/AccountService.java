@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.cdcb.pruebatecnica1_softlond.domain.Account;
 import com.cdcb.pruebatecnica1_softlond.exceptions.AccountNotFound;
+import com.cdcb.pruebatecnica1_softlond.exceptions.RecordNotStored;
 import com.cdcb.pruebatecnica1_softlond.repositories.AccountRepository;
 import com.cdcb.pruebatecnica1_softlond.repositories.IRepository;
 
@@ -25,8 +26,14 @@ public class AccountService implements IService<Account> {
 	}
 
 	@Override
-	public void save(Account entity) {
-		this.accountRepository.insert(entity);
+	public boolean save(Account entity) {
+		try {
+			this.accountRepository.insert(entity);
+			return true;
+		} catch (RecordNotStored e) {
+			System.out.println(e.getMessage());
+		}
+		return false;
 	}
 
 	@Override

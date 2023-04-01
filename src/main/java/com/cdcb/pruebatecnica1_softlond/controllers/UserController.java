@@ -49,6 +49,7 @@ public class UserController extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String content = req.getContentType();
+		boolean almacenado = false;
 		if(content != "application/json" || content == null){
 			resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		}
@@ -56,8 +57,12 @@ public class UserController extends HttpServlet {
 		switch (req.getPathInfo()) {
 			case "/save":
 				User user = this.mapUser(req.getInputStream());
-				userService.save(user);
-				resp.setStatus(HttpServletResponse.SC_CREATED);
+				almacenado = userService.save(user);
+				if(almacenado){
+					resp.setStatus(HttpServletResponse.SC_CREATED);
+				}else{
+					resp.setStatus(HttpServletResponse.SC_NOT_MODIFIED);
+				}
 				break;
 			default:
 				resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);

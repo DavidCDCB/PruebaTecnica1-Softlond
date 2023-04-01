@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.cdcb.pruebatecnica1_softlond.domain.Transaction;
+import com.cdcb.pruebatecnica1_softlond.exceptions.RecordNotStored;
 import com.cdcb.pruebatecnica1_softlond.exceptions.TransactionNotFound;
 
 public class TransactionRepository implements IRepository<Transaction> {
@@ -79,7 +80,7 @@ public class TransactionRepository implements IRepository<Transaction> {
 	}
 
 	@Override
-	public void insert(Transaction entity) {
+	public void insert(Transaction entity) throws RecordNotStored {
 		Connection connection = null;
 		String sql = "INSERT INTO TRANSACCIONES(FECHA,HORA,TIPO_TRANSACCION,MONTO,TIPO_CUENTA_DESTINO,ID_CUENTA) VALUES(?,?,?,?,?,?)";
 		try {
@@ -93,7 +94,7 @@ public class TransactionRepository implements IRepository<Transaction> {
 			pstmt.setInt(6, entity.getAccountID());
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			throw new RecordNotStored(e.getMessage());
 		}finally{
 			this.disconnect(connection);
 		}

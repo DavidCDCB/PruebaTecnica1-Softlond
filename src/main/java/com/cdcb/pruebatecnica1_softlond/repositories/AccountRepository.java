@@ -12,6 +12,7 @@ import java.util.List;
 
 import com.cdcb.pruebatecnica1_softlond.domain.Account;
 import com.cdcb.pruebatecnica1_softlond.exceptions.AccountNotFound;
+import com.cdcb.pruebatecnica1_softlond.exceptions.RecordNotStored;
 
 public class AccountRepository implements IRepository<Account> {
 	private String fileDB;
@@ -69,7 +70,7 @@ public class AccountRepository implements IRepository<Account> {
 	}
 
 	@Override
-	public void insert(Account entity) {
+	public void insert(Account entity) throws RecordNotStored {
 		Connection connection = null;
 		String sql = "INSERT INTO CUENTAS(NUMERO_CUENTA, SALDO, TIPO_CUENTA, ID_USUARIO) VALUES(?,?,?,?)";
 		try {
@@ -82,7 +83,7 @@ public class AccountRepository implements IRepository<Account> {
 
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			throw new RecordNotStored(e.getMessage());
 		}finally{
 			this.disconnect(connection);
 		}
@@ -198,7 +199,7 @@ public class AccountRepository implements IRepository<Account> {
 	}
 
 	@Override
-	public void delete(int id) {
+	public void delete(int id) throws AccountNotFound {
 		int response = 0;
 		Connection connection = null;
 		String sql = "DELETE FROM CUENTAS WHERE ID = ?";

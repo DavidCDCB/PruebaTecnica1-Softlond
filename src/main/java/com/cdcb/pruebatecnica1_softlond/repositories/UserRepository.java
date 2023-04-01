@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.cdcb.pruebatecnica1_softlond.domain.User;
+import com.cdcb.pruebatecnica1_softlond.exceptions.RecordNotStored;
 import com.cdcb.pruebatecnica1_softlond.exceptions.UserNotFound;
 
 public class UserRepository implements IRepository<User> {
@@ -79,7 +80,7 @@ public class UserRepository implements IRepository<User> {
 	}
 
 	@Override
-	public void insert(User entity) {
+	public void insert(User entity) throws RecordNotStored {
 		Connection connection = null;
 		String sql = "INSERT INTO USUARIOS(NOMBRE, APELLIDO, CEDULA) VALUES(?,?,?)";
 		try {
@@ -91,7 +92,7 @@ public class UserRepository implements IRepository<User> {
 
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			throw new RecordNotStored(e.getMessage());
 		}finally{
 			this.disconnect(connection);
 		}
