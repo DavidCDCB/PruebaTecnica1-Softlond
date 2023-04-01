@@ -1,21 +1,8 @@
 package com.cdcb.pruebatecnica1_softlond;
 
-import java.util.List;
-
 import com.cdcb.pruebatecnica1_softlond.controllers.AccountController;
 import com.cdcb.pruebatecnica1_softlond.controllers.TransactionController;
 import com.cdcb.pruebatecnica1_softlond.controllers.UserController;
-import com.cdcb.pruebatecnica1_softlond.domain.Account;
-import com.cdcb.pruebatecnica1_softlond.domain.Transaction;
-import com.cdcb.pruebatecnica1_softlond.domain.User;
-import com.cdcb.pruebatecnica1_softlond.repositories.AccountRepository;
-import com.cdcb.pruebatecnica1_softlond.repositories.IRepository;
-import com.cdcb.pruebatecnica1_softlond.repositories.TransactionRepository;
-import com.cdcb.pruebatecnica1_softlond.repositories.UserRepository;
-import com.cdcb.pruebatecnica1_softlond.services.AccountService;
-import com.cdcb.pruebatecnica1_softlond.services.IService;
-import com.cdcb.pruebatecnica1_softlond.services.TransactionService;
-import com.cdcb.pruebatecnica1_softlond.services.UserService;
 
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.DefaultHandler;
@@ -25,37 +12,6 @@ public class App
 {
     public static void main( String[] args )
     {
-
-        IRepository<User> userRepository = new UserRepository(IRepository.FILE_DB);
-        IService<User> userService = new UserService(userRepository);
-        userService.removeDDL();
-        userService.createDDL();
-
-        User user = new User("David", "Cruz", "1");
-        userService.save(user);
-        List<User> users = userService.getAll();
-        System.out.println(users.toString());
-
-        IRepository<Account> accountRepository = new AccountRepository(IRepository.FILE_DB);
-        IService<Account> accountService = new AccountService(accountRepository);
-        accountService.removeDDL();
-        accountService.createDDL();
-
-        Account account = new Account("123", 100, "Cruz", 1);
-        accountService.save(account);
-        System.out.println(accountService.getOne(1));
-
-        List<Account> accounts = ((AccountService)accountService).getByUser(1);
-        System.out.println(accounts.toString());
-
-        IRepository<Transaction> transactionRepository = new TransactionRepository(IRepository.FILE_DB);
-        IService<Transaction> transactionService = new TransactionService(transactionRepository, accountRepository);
-        transactionService.removeDDL();
-        transactionService.createDDL();
-        
-        Transaction transaction = new Transaction("12","12","retiro",10,"ahorro",1);
-        transactionService.save(transaction);
-
         Server server = new Server(9090);
         server.setHandler(new DefaultHandler());
 
@@ -70,7 +26,7 @@ public class App
             server.start();
             server.join();
         }catch(Exception e){
-            e.printStackTrace();
+            e.printStackTrace(System.out);
         }
     }
 }
