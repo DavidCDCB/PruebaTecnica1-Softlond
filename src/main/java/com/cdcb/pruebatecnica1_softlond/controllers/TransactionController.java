@@ -24,8 +24,114 @@ public class TransactionController extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		System.out.println("Transaction");
+		int id;
+		List<Transaction> transactions;
 		resp.setContentType("application/json");
-		resp.setStatus(HttpServletResponse.SC_OK);
+		switch (req.getPathInfo()) {
+			case "/all":
+				transactions = transactionService.getAll();
+				resp.getWriter().write(this.toJSON(transactions));
+				break;
+			case "/find":
+				id = Integer.parseInt(req.getParameter("id"));
+				Transaction account = transactionService.getOne(id);
+				if(account == null) {
+					resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+				} else {
+					resp.getWriter().write(this.toJSON(account));
+				}
+				break;
+			case "/account":
+				id = Integer.parseInt(req.getParameter("id"));
+				transactions = ((TransactionService) transactionService).getByAccount(id);
+				resp.getWriter().write(this.toJSON(transactions));
+				break;
+			default:
+				resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+				break;
+		}
 	}
+
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String content = req.getContentType();
+		if(content != "application/json" || content == null){
+			resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+		}
+
+		switch (req.getPathInfo()) {
+			case "/save":
+				Transaction transaction = this.mapTransaction(req.getInputStream());
+				transactionService.save(transaction);
+				resp.setStatus(HttpServletResponse.SC_CREATED);
+				break;
+			default:
+				resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+				break;
+		}
+	}
+
+	@Override
+	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		int id;
+		boolean modificado = false;
+		String content = req.getContentType();
+		if(content != "application/json" || content == null){
+			resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+		}
+		switch (req.getPathInfo()) {
+			case "/update":
+				id = Integer.parseInt(req.getParameter("id"));
+				Transaction transaction = this.mapTransaction(req.getInputStream());
+				modificado = transactionService.update(transaction, id);
+				break;
+
+			default:
+				resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+				break;
+		}
+		if(modificado == false) {
+			resp.setStatus(HttpServletResponse.SC_NOT_MODIFIED);
+		}
+	}
+
+	@Override
+	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		int id;
+		boolean eliminado = false;
+		switch (req.getPathInfo()) {
+			case "/delete":
+				id = Integer.parseInt(req.getParameter("id"));
+				eliminado = transactionService.remove(id);
+				resp.setStatus(HttpServletResponse.SC_OK);
+				break;
+			
+			default:
+				resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+				break;
+		}
+		if(eliminado == false) {
+			resp.setStatus(HttpServletResponse.SC_NOT_MODIFIED);
+		}
+	}
+
+    public Transaction mapTransaction(ServletInputStream rawData) {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return mapper.readValue(rawData, new TypeReference<Transaction>(){});
+        } catch (IOException e) {
+            e.printStackTrace(System.out);
+            return null;
+        }
+    }
+
+    public String toJSON(Object object) {
+        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        try {
+            return ow.writeValueAsString(object);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace(System.out);
+            return null;
+        }
+    }
 }

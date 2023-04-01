@@ -11,8 +11,8 @@ import com.cdcb.pruebatecnica1_softlond.repositories.TransactionRepository;
 public class TransactionService implements IService<Transaction> {
 	private IRepository<Transaction> transactionRepository;
 
-	public TransactionService(IRepository<Transaction> userRepository, IRepository<Account> accountRepository) {
-		this.transactionRepository = userRepository;
+	public TransactionService(IRepository<Transaction> transactionRepository, IRepository<Account> accountRepository) {
+		this.transactionRepository = transactionRepository;
 	}
 
 	@Override

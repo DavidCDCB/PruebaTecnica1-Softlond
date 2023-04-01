@@ -3,6 +3,7 @@ package com.cdcb.pruebatecnica1_softlond;
 import java.util.List;
 
 import com.cdcb.pruebatecnica1_softlond.controllers.AccountController;
+import com.cdcb.pruebatecnica1_softlond.controllers.TransactionController;
 import com.cdcb.pruebatecnica1_softlond.controllers.UserController;
 import com.cdcb.pruebatecnica1_softlond.domain.Account;
 import com.cdcb.pruebatecnica1_softlond.domain.Transaction;
@@ -52,6 +53,8 @@ public class App
         transactionService.removeDDL();
         transactionService.createDDL();
         
+        Transaction transaction = new Transaction("12","12","retiro",10,"ahorro",1);
+        transactionService.save(transaction);
 
         Server server = new Server(9090);
         server.setHandler(new DefaultHandler());
@@ -60,7 +63,7 @@ public class App
         context.setContextPath("/");
         context.addServlet(UserController.class, "/api/user/*");
         context.addServlet(AccountController.class, "/api/account/*");
-        context.addServlet(UserController.class, "/api/transaction/*");
+        context.addServlet(TransactionController.class, "/api/transaction/*");
         server.setHandler(context);
 
         try{
