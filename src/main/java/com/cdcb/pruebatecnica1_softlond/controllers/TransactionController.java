@@ -20,7 +20,7 @@ import com.cdcb.pruebatecnica1_softlond.repositories.*;
 
 public class TransactionController extends HttpServlet {
 	private IService<Transaction> transactionService 
-		= new TransactionService(new TransactionRepository("banco.db"), new AccountRepository("banco.db"));
+		= new TransactionService(new TransactionRepository(IRepository.FILE_DB), new AccountRepository(IRepository.FILE_DB));
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

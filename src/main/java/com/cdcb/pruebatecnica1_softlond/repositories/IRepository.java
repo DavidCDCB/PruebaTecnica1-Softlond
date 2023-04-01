@@ -8,6 +8,7 @@ import com.cdcb.pruebatecnica1_softlond.exceptions.TransactionNotFound;
 import com.cdcb.pruebatecnica1_softlond.exceptions.UserNotFound;
 
 public interface IRepository<T> {
+	final static String FILE_DB = "banco.db";
 	void connect();
 	void createTable();
 	void removeTable();

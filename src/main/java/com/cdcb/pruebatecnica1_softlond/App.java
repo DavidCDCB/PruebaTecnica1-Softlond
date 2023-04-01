@@ -26,7 +26,7 @@ public class App
     public static void main( String[] args )
     {
 
-        IRepository<User> userRepository = new UserRepository("banco.db");
+        IRepository<User> userRepository = new UserRepository(IRepository.FILE_DB);
         IService<User> userService = new UserService(userRepository);
         userService.removeDDL();
         userService.createDDL();
@@ -36,7 +36,7 @@ public class App
         List<User> users = userService.getAll();
         System.out.println(users.toString());
 
-        IRepository<Account> accountRepository = new AccountRepository("banco.db");
+        IRepository<Account> accountRepository = new AccountRepository(IRepository.FILE_DB);
         IService<Account> accountService = new AccountService(accountRepository);
         accountService.removeDDL();
         accountService.createDDL();
@@ -48,7 +48,7 @@ public class App
         List<Account> accounts = ((AccountService)accountService).getByUser(1);
         System.out.println(accounts.toString());
 
-        IRepository<Transaction> transactionRepository = new TransactionRepository("banco.db");
+        IRepository<Transaction> transactionRepository = new TransactionRepository(IRepository.FILE_DB);
         IService<Transaction> transactionService = new TransactionService(transactionRepository, accountRepository);
         transactionService.removeDDL();
         transactionService.createDDL();

@@ -20,7 +20,7 @@ import com.cdcb.pruebatecnica1_softlond.repositories.*;
 
 public class AccountController extends HttpServlet {
 	private IService<Account> accountService 
-		= new AccountService(new AccountRepository("banco.db"));
+		= new AccountService(new AccountRepository(IRepository.FILE_DB));
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

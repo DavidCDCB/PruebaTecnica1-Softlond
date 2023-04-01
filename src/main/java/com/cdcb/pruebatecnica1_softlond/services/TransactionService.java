@@ -11,9 +11,11 @@ import com.cdcb.pruebatecnica1_softlond.repositories.TransactionRepository;
 
 public class TransactionService implements IService<Transaction> {
 	private IRepository<Transaction> transactionRepository;
+	private IRepository<Account> accountRepository;
 
 	public TransactionService(IRepository<Transaction> transactionRepository, IRepository<Account> accountRepository) {
 		this.transactionRepository = transactionRepository;
+		this.accountRepository = accountRepository;
 	}
 
 	@Override
@@ -29,6 +31,15 @@ public class TransactionService implements IService<Transaction> {
 	@Override
 	public boolean save(Transaction entity) {
 		try {
+			if(entity.getTransactionType().equals("deposito")){
+				Account account = this.accountRepository.selectById(entity.getAccountID());
+				account.setBalance(account.getBalance() + entity.getBalance());
+				this.accountRepository.update(account, entity.getAccountID());
+			}else if(entity.getTransactionType().equals("retiro")){
+				Account account = this.accountRepository.selectById(entity.getAccountID());
+				account.setBalance(account.getBalance() - entity.getBalance());
+				this.accountRepository.update(account, entity.getAccountID());
+			}
 			this.transactionRepository.insert(entity);
 			return true;
 		} catch (RecordNotStored e) {

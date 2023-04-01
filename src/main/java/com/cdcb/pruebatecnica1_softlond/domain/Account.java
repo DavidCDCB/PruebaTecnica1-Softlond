@@ -27,6 +27,18 @@ public class Account {
 		this.userId = userId;
 	}
 
+	public void withdrawMoney(double amount) {
+		if(amount > this.balance) {
+			System.out.println("No tiene saldo suficiente");
+		}else {
+			this.balance -= amount;
+		}
+	}
+
+	public void depositMoney(double amount) {
+		this.balance += amount;
+	}
+
 	public String getNumberAccount() {
 		return numberAccount;
 	}

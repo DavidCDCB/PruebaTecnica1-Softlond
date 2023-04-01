@@ -20,7 +20,7 @@ import com.cdcb.pruebatecnica1_softlond.repositories.*;
 
 public class UserController extends HttpServlet {
 	private IService<User> userService 
-		= new UserService(new UserRepository("banco.db"));
+		= new UserService(new UserRepository(IRepository.FILE_DB));
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
