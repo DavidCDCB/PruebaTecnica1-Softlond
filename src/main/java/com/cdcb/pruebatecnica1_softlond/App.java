@@ -58,8 +58,8 @@ public class App
 
         ServletContextHandler context = new ServletContextHandler();
         context.setContextPath("/");
-        context.addServlet(AccountController.class, "/api/account/*");
         context.addServlet(UserController.class, "/api/user/*");
+        context.addServlet(AccountController.class, "/api/account/*");
         context.addServlet(UserController.class, "/api/transaction/*");
         server.setHandler(context);
 

@@ -24,10 +24,114 @@ public class AccountController extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		System.out.println("Account");
-		System.out.println(req.getParameter("p1"));
-		System.out.println(req.getParameter("p2"));
+		int id;
+		List<Account> accounts;
 		resp.setContentType("application/json");
-		resp.setStatus(HttpServletResponse.SC_OK);
+		switch (req.getPathInfo()) {
+			case "/all":
+				accounts = accountService.getAll();
+				resp.getWriter().write(this.toJSON(accounts));
+				break;
+			case "/find":
+				id = Integer.parseInt(req.getParameter("id"));
+				Account account = accountService.getOne(id);
+				if(account == null) {
+					resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+				} else {
+					resp.getWriter().write(this.toJSON(account));
+				}
+				break;
+			case "/user":
+				id = Integer.parseInt(req.getParameter("id"));
+				accounts = ((AccountService) accountService).getByUser(id);
+				resp.getWriter().write(this.toJSON(accounts));
+				break;
+			default:
+				resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+				break;
+		}
 	}
+
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String content = req.getContentType();
+		if(content != "application/json" || content == null){
+			resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+		}
+
+		switch (req.getPathInfo()) {
+			case "/save":
+				Account account = this.mapAccount(req.getInputStream());
+				accountService.save(account);
+				resp.setStatus(HttpServletResponse.SC_CREATED);
+				break;
+			default:
+				resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+				break;
+		}
+	}
+
+	@Override
+	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		int id;
+		boolean eliminado = false;
+		switch (req.getPathInfo()) {
+			case "/delete":
+				id = Integer.parseInt(req.getParameter("id"));
+				eliminado = accountService.remove(id);
+				resp.setStatus(HttpServletResponse.SC_OK);
+				break;
+			
+			default:
+				resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+				break;
+		}
+		if(eliminado == false) {
+			resp.setStatus(HttpServletResponse.SC_NOT_MODIFIED);
+		}
+	}
+
+	@Override
+	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		int id;
+		boolean modificado = false;
+		String content = req.getContentType();
+		if(content != "application/json" || content == null){
+			resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+		}
+		switch (req.getPathInfo()) {
+			case "/update":
+				id = Integer.parseInt(req.getParameter("id"));
+				Account account = this.mapAccount(req.getInputStream());
+				modificado = accountService.update(account, id);
+				break;
+
+			default:
+				resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+				break;
+		}
+		if(modificado == false) {
+			resp.setStatus(HttpServletResponse.SC_NOT_MODIFIED);
+		}
+	}
+
+    public Account mapAccount(ServletInputStream rawData) {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return mapper.readValue(rawData, new TypeReference<Account>(){});
+        } catch (IOException e) {
+            e.printStackTrace(System.out);
+            return null;
+        }
+    }
+
+    public String toJSON(Object object) {
+        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        try {
+            return ow.writeValueAsString(object);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace(System.out);
+            return null;
+        }
+    }
 }

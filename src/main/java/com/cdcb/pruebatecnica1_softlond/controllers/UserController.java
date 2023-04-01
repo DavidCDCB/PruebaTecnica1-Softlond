@@ -49,7 +49,7 @@ public class UserController extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String content = req.getContentType();
-		if(content != "application/json" || content != null){
+		if(content != "application/json" || content == null){
 			resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		}
 

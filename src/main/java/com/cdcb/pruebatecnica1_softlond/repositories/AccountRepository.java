@@ -177,7 +177,7 @@ public class AccountRepository implements IRepository<Account> {
 	public void update(Account entity, int id) throws AccountNotFound {
 		int response = 0;
 		Connection connection = null;
-		String sql = "UPDATE CUENTAS SET NUMERO_CUENTA=?, SALDO=?, TIPO_CUENTA=?, ID_USUARIO=? WHERE NUMERO_CUENTA=?";
+		String sql = "UPDATE CUENTAS SET NUMERO_CUENTA=?, SALDO=?, TIPO_CUENTA=?, ID_USUARIO=? WHERE ID=?";
 		try {
 			connection = DriverManager.getConnection(this.fileDB);
 			PreparedStatement pstmt = connection.prepareStatement(sql);
@@ -201,7 +201,7 @@ public class AccountRepository implements IRepository<Account> {
 	public void delete(int id) {
 		int response = 0;
 		Connection connection = null;
-		String sql = "DELETE FROM CUENTAS WHERE NUMERO_CUENTA = ?";
+		String sql = "DELETE FROM CUENTAS WHERE ID = ?";
 		try {
 			connection = DriverManager.getConnection(this.fileDB);
 			PreparedStatement pstmt = connection.prepareStatement(sql);
